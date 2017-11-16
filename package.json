@@ -1,0 +1,15 @@
+{
+  "name": "graphql-brigde",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simon vom Eyser",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "graphql-request": "^1.4.0"
+  }
+}
