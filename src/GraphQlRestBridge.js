@@ -36,7 +36,6 @@ export default class GraphQlRestBridge {
 
     // Merge the default options with the given options
     Object.assign(this, defaultOptions, options);
-
     // Merge in the default data/headers from constructor to be included in request
     Object.assign(this.data, this.defaultData);
     Object.assign(this.headers, this.defaultHeaders);
@@ -53,19 +52,15 @@ export default class GraphQlRestBridge {
     });
 
     // Perform the actual request, map axios data props
-    try {
-      const result = await axiosInstance[this.method](this.endpoint, this.data);
-      const data = result.data;
+    const result = await axiosInstance[this.method](this.endpoint, this.data);
+    const data = result.data;
 
-      // When the enpoints returns an array of objects:
-      // run the provided mapper and filter against each of them
-      if (Array.isArray(data)) {
-        return data.filter(this.filter).map(this.mapper);
-      } else {
-        return this.mapper(data);
-      }
-    } catch (error) {
-      return {};
+    // When the enpoints returns an array of objects:
+    // run the provided mapper and filter against each of them
+    if (Array.isArray(data)) {
+      return data.filter(this.filter).map(this.mapper);
+    } else {
+      return this.mapper(data);
     }
   }
 }

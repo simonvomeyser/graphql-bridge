@@ -24,19 +24,15 @@ export default class GraphQlBridge {
 
     if (!this.query) throw new Error('You must provide query');
 
-    try {
-      // Request data, run nester to get ressource if it is nested inside
-      const data = this.nester(await this.client.request(this.query));
+    // Request data, run nester to get ressource if it is nested inside
+    const data = this.nester(await this.client.request(this.query));
 
-      // When the enpoints returns an array of objects:
-      // run the provided mapper and filter against each of them
-      if (Array.isArray(data)) {
-        return data.map(this.mapper);
-      } else {
-        return this.mapper(data);
-      }
-    } catch (error) {
-      return {};
+    // When the enpoints returns an array of objects:
+    // run the provided mapper and filter against each of them
+    if (Array.isArray(data)) {
+      return data.map(this.mapper);
+    } else {
+      return this.mapper(data);
     }
   }
 }
