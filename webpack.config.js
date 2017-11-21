@@ -32,6 +32,9 @@ const config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader',
+        options: {
+          plugins: [require('babel-plugin-transform-runtime')],
+        },
         exclude: /(node_modules|bower_components)/,
       },
       {
