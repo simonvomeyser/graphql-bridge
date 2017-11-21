@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --env build",
-    "dev": "webpack --progress --colors --watch --env dev",
+    "dev": "webpack --progress --colors --watch --env build",
     "format": "prettier 'src/**/*.js'",
     "precommit": "lint-staged",
     "prepublishOnly": "npm run build"
