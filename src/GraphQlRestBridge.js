@@ -32,35 +32,45 @@ export default class GraphQlRestBridge {
       headers: {},
       filter: () => true,
       mapper: data => data,
+      nester: data => data,
     };
 
+    // Combine all options in this object
+    const mergedOptions = {};
+
     // Merge the default options with the given options
-    Object.assign(this, defaultOptions, options);
+    Object.assign(mergedOptions, defaultOptions, options);
     // Merge in the default data/headers from constructor to be included in request
-    Object.assign(this.data, this.defaultData);
-    Object.assign(this.headers, this.defaultHeaders);
+    Object.assign(mergedOptions.data, this.defaultData);
+    Object.assign(mergedOptions.headers, this.defaultHeaders);
 
     // Validation
-    if (!this.endpoint) throw new Error('You must provide an endpoint');
+    if (!mergedOptions.endpoint)
+      throw new Error('You must provide an endpoint');
 
     // Bypass axios specific behaviour, send data as query params in 'get' requests
-    if (this.method == 'get') this.data = { params: this.data };
+    if (mergedOptions.method == 'get')
+      mergedOptions.data = { params: mergedOptions.data };
 
     // Create Axios instance to include headers
     var axiosInstance = axios.create({
-      headers: this.headers,
+      headers: mergedOptions.headers,
     });
 
-    // Perform the actual request, map axios data props
-    const result = await axiosInstance[this.method](this.endpoint, this.data);
-    const data = result.data;
+    // Perform the actual requst, map axios data props
+    const result = await axiosInstance[mergedOptions.method](
+      mergedOptions.endpoint,
+      mergedOptions.data
+    );
+
+    const data = mergedOptions.nester(result.data);
 
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them
     if (Array.isArray(data)) {
-      return data.filter(this.filter).map(this.mapper);
+      return data.filter(mergedOptions.filter).map(mergedOptions.mapper);
     } else {
-      return this.mapper(data);
+      return mergedOptions.mapper(data);
     }
   }
 }

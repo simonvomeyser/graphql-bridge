@@ -19,20 +19,25 @@ export default class GraphQlBridge {
       mapper: data => data,
     };
 
-    // Merge the default options with the given options
-    Object.assign(this, defaultOptions, options);
+    // Collect all options in this object to not "save" them per request
+    const mergedOptions = {};
 
-    if (!this.query) throw new Error('You must provide query');
+    // Merge the default options with the given options
+    Object.assign(mergedOptions, defaultOptions, options);
+
+    if (!mergedOptions.query) throw new Error('You must provide query');
 
     // Request data, run nester to get ressource if it is nested inside
-    const data = this.nester(await this.client.request(this.query));
+    const data = mergedOptions.nester(
+      await mergedOptions.client.request(mergedOptions.query)
+    );
 
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them
     if (Array.isArray(data)) {
-      return data.map(this.mapper);
+      return data.map(mergedOptions.mapper);
     } else {
-      return this.mapper(data);
+      return mergedOptions.mapper(data);
     }
   }
 }
