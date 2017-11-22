@@ -19,7 +19,7 @@ export default class GraphQlBridge {
       mapper: data => data,
     };
 
-    // Collect all options in this object to not "save" them per request
+    // Combine all options in this object
     const mergedOptions = {};
 
     // Merge the default options with the given options
