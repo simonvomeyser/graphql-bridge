@@ -17,6 +17,7 @@ export default class GraphQlBridge {
       method: 'query',
       nester: data => data,
       mapper: data => data,
+      filter: () => true,
     };
 
     // Combine all options in this object
@@ -25,7 +26,7 @@ export default class GraphQlBridge {
     // Merge the default options with the given options
     Object.assign(mergedOptions, defaultOptions, options);
 
-    if (!mergedOptions.query) throw new Error('You must provide query');
+    if (!mergedOptions.query) throw new Error('You must provide a query');
 
     // Request data, run nester to get ressource if it is nested inside
     const data = mergedOptions.nester(
@@ -35,9 +36,17 @@ export default class GraphQlBridge {
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them
     if (Array.isArray(data)) {
-      return data.map(mergedOptions.mapper);
+      // Just chain array functions
+      return data.filter(mergedOptions.filter).map(mergedOptions.mapper);
     } else {
-      return mergedOptions.mapper(data);
+      // Check if filter allows access to object
+      const mappedObject = mergedOptions.mapper(data);
+
+      if (mergedOptions.mapper(mappedObject)) {
+        return mappedObject;
+      } else {
+        return {};
+      }
     }
   }
 }

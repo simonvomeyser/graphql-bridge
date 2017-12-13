@@ -13,9 +13,8 @@ export default class GraphQlRestBridge {
   }
 
   /**
-   * Request a ressource
+   * Request a REST ressource
    *
-   * @todo error handling
    * @param {*} options Object containing the following keys
    *  endpoint String: The enpoint to call an retrieve the data from
    *  method String: Wrapper around the axios library, get|post|patch|put|delete
@@ -30,9 +29,9 @@ export default class GraphQlRestBridge {
       method: 'get',
       data: {},
       headers: {},
-      filter: () => true,
-      mapper: data => data,
       nester: data => data,
+      mapper: data => data,
+      filter: () => true,
     };
 
     // Combine all options in this object
@@ -68,9 +67,17 @@ export default class GraphQlRestBridge {
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them
     if (Array.isArray(data)) {
+      // Just chain array functions
       return data.filter(mergedOptions.filter).map(mergedOptions.mapper);
     } else {
-      return mergedOptions.mapper(data);
+      // Check if filter allows access to object
+      const mappedObject = mergedOptions.mapper(data);
+
+      if (mergedOptions.mapper(mappedObject)) {
+        return mappedObject;
+      } else {
+        return {};
+      }
     }
   }
 }
