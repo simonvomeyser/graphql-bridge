@@ -11,10 +11,19 @@ export default class GraphQlBridge {
       headers: defaultHeaders,
     });
   }
+
+  /**
+   * Perform a graphql query
+   *
+   * @param {*} options Object containing the following keys
+   *  query String: The enpoint to call an retrieve the data from
+   *  nester Function: To get neseted data
+   *  filter Function: To filter result if it is an array
+   *  mapper Function: Taking in an object and returning object with transformed properties
+   */
   async request(options = {}) {
     const defaultOptions = {
       query: null,
-      method: 'query',
       nester: data => data,
       mapper: data => data,
       filter: () => true,
@@ -42,7 +51,7 @@ export default class GraphQlBridge {
       // Check if filter allows access to object
       const mappedObject = mergedOptions.mapper(data);
 
-      if (mergedOptions.mapper(mappedObject)) {
+      if (mergedOptions.filter(mappedObject)) {
         return mappedObject;
       } else {
         return {};

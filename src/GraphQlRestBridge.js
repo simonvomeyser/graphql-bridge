@@ -20,6 +20,7 @@ export default class GraphQlRestBridge {
    *  method String: Wrapper around the axios library, get|post|patch|put|delete
    *  data Object: The data to include in the requests body. Will be transformed to query params when using method:'get'
    *  headers Object: The headers to include in the requests.
+   *  nester Function: To get neseted data
    *  filter Function: To filter result if it is an array
    *  mapper Function: Taking in an object and returning object with transformed properties
    */
@@ -73,7 +74,7 @@ export default class GraphQlRestBridge {
       // Check if filter allows access to object
       const mappedObject = mergedOptions.mapper(data);
 
-      if (mergedOptions.mapper(mappedObject)) {
+      if (mergedOptions.filter(mappedObject)) {
         return mappedObject;
       } else {
         return {};
