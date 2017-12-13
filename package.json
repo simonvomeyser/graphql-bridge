@@ -1,8 +1,7 @@
 {
   "name": "graphql-bridge",
   "version": "0.1.7",
-  "description":
-    "A package to easily integrate services/apis with your GraphQL resolvers",
+  "description": "A package to easily integrate services/apis with your GraphQL resolvers",
   "main": "lib/graphql-bridge.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,8 +11,7 @@
     "precommit": "lint-staged",
     "prepublishOnly": "npm run build"
   },
-  "author":
-    "Simon vom Eyser <simon.vom.eyser@gmail.com> (https://simonvomeyser.de)",
+  "author": "Simon vom Eyser <simon.vom.eyser@gmail.com> (https://simonvomeyser.de)",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
@@ -38,7 +36,10 @@
     "webpack": "^3.8.1"
   },
   "lint-staged": {
-    "src/**/*.js": ["prettier --write", "git add"]
+    "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
