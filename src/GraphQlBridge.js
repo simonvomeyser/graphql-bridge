@@ -2,6 +2,10 @@ import { GraphQLClient } from 'graphql-request';
 
 /**
  * Provides simple way to request data from an GraphQL Endpoint
+ *
+ * @param {String} endpoint The graphql endpoint, like "http://example.com/graphql"
+ * @param {Object} defaultData What data to "save" in the class for later use, like project ids
+ * @param {Object} defaultHeaders What headers to include in every request
  */
 export default class GraphQlBridge {
   constructor(endpoint, defaultOptions = {}, defaultHeaders = {}) {
@@ -48,9 +52,10 @@ export default class GraphQlBridge {
       // Just chain array functions
       return data.filter(mergedOptions.filter).map(mergedOptions.mapper);
     } else {
-      // Check if filter allows access to object
+      // Run mapper manually
       const mappedObject = mergedOptions.mapper(data);
 
+      // Check if filter allows access to object
       if (mergedOptions.filter(mappedObject)) {
         return mappedObject;
       } else {
