@@ -1,6 +1,6 @@
 {
   "name": "graphql-bridge",
-  "version": "0.1.11",
+  "version": "1.0.0",
   "description": "A package to easily integrate services/apis with your GraphQL resolvers",
   "main": "lib/graphql-bridge.min.js",
   "scripts": {
