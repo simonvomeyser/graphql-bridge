@@ -43,7 +43,7 @@ export default class GraphQlBridge {
 
     // Request data, run nester to get ressource if it is nested inside
     const data = mergedOptions.nester(
-      await mergedOptions.client.request(mergedOptions.query)
+      await this.client.request(mergedOptions.query)
     );
 
     // When the enpoints returns an array of objects:
