@@ -41,10 +41,11 @@ export default class GraphQlBridge {
 
     if (!mergedOptions.query) throw new Error('You must provide a query');
 
-    // Request data, run nester to get ressource if it is nested inside
-    const data = mergedOptions.nester(
-      await this.client.request(mergedOptions.query)
-    );
+    // Request data, save the unfiltered data on the instance for later access
+    this.unfilteredData = await this.client.request(mergedOptions.query);
+
+    // Run nester to get ressource if it is nested inside
+    const data = mergedOptions.nester(this.unfilteredData);
 
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them

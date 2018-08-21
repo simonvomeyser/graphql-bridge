@@ -63,7 +63,10 @@ export default class GraphQlRestBridge {
       mergedOptions.data
     );
 
-    const data = mergedOptions.nester(result.data);
+    // Save the unfiltered data on the instance for later access
+    this.unfilteredData = result.data;
+
+    const data = mergedOptions.nester(this.unfilteredData);
 
     // When the enpoints returns an array of objects:
     // run the provided mapper and filter against each of them
