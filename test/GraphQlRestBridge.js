@@ -23,9 +23,7 @@ describe('GraphQLBridge', function() {
 
   it('makes-a-request', function(done) {
     var restBridge = new GraphQlRestBridge(
-      {
-        apiKey: '12345',
-      },
+      {},
       {
         Accept: 'application/json'
       }
