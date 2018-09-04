@@ -1,4 +1,7 @@
 var assert = require('assert');
+
+var nock = require('nock');
+
 const GraphQlRestBridge = require('../lib/graphql-bridge.min')
   .GraphQlRestBridge;
 
@@ -21,21 +24,28 @@ describe('GraphQLBridge', function() {
     assert.equal(restBridge.defaultHeaders.Accept, 'application/json');
   });
 
-  it('makes-a-request', function(done) {
+  it('makes-a-simple-request', function(done) {
+
+    nock('http://example-api.com')
+      .get('/users/1')
+      .reply(200, {
+        _id: '123ABC',
+      });
+
     var restBridge = new GraphQlRestBridge(
       {},
       {
-        Accept: 'application/json'
+        Accept: 'application/json',
       }
     );
 
-    restBridge.request({
-      endpoint: 'https://jsonplaceholder.typicode.com/todos/1',
-    }).then(function(data) {
-      assert.equal(data.userId,1);
-      done();
-    });
-
+    restBridge
+      .request({
+        endpoint: 'http://example-api.com/users/1',
+      })
+      .then(function(data) {
+        assert.equal(data._id, '123ABC');
+        done();
+      });
   });
-
 });
