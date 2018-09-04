@@ -25,7 +25,6 @@ describe('GraphQLBridge', function() {
   });
 
   it('makes-a-simple-request', function(done) {
-
     nock('http://example-api.com')
       .get('/users/1')
       .reply(200, {
@@ -45,6 +44,27 @@ describe('GraphQLBridge', function() {
       })
       .then(function(data) {
         assert.equal(data._id, '123ABC');
+        done();
+      });
+  });
+
+  it('sends-multiple-parameters', function(
+    done
+  ) {
+
+    nock('http://example-api.com')
+      .get('/login?username=admin&password=123456')
+      .reply(200, { id: '123ABC' });
+
+    var restBridge = new GraphQlRestBridge();
+
+    restBridge
+      .request({
+        endpoint: 'http://example-api.com/login',
+        data: {username: 'admin', password: '123456'}
+      })
+      .then(function(data) {
+        assert.equal(data.id, '123ABC');
         done();
       });
   });
