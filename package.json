@@ -4,7 +4,7 @@
   "description": "A package to easily integrate services/apis with your GraphQL resolvers",
   "main": "lib/graphql-bridge.min.js",
   "scripts": {
-    "test": "mocha",
+    "test": "webpack --env build && mocha",
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env build",
     "format": "prettier 'src/**/*.js'",
