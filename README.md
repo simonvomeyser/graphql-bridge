@@ -1,5 +1,7 @@
 # GraphQL Bridge
 
+[![Build Status](https://travis-ci.org/simonvomeyser/graphql-bridge.svg?branch=feature%2Ftests)](https://travis-ci.org/simonvomeyser/graphql-bridge)
+
 With the classes provided by this repository you can easily integrate multiple
 REST and GraphQL endpoints in a uniform way.
 
