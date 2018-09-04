@@ -14,7 +14,7 @@ describe('GraphQLBridge', function() {
         someDefaultData: 'some default data',
       },
       {
-        Accept: 'application/json'
+        Accept: 'application/json',
       }
     );
     assert.equal(restBridge.defaultData.someDefaultData, 'some default data');
