@@ -90,4 +90,28 @@ describe('GraphQLBridge', function() {
       });
   });
 
+  it('posts-with-multiple-params', function(
+    done
+  ) {
+
+    nock('http://example-api.com')
+      .post('/login', function(body) { 
+        return body.username && body.password && body.apiKey;
+      })
+      .reply(200, { id: '123ABC' });
+
+    var restBridge = new GraphQlRestBridge({apiKey:123});
+
+    restBridge
+      .request({
+        endpoint: 'http://example-api.com/login',
+        method: 'post',
+        data: {username: 'admin', password: '123456'}
+      })
+      .then(function(data) {
+        assert.equal(data.id, '123ABC');
+        done();
+      });
+  });
+  
 });
