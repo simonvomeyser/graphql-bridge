@@ -14,7 +14,7 @@
   "author": "Simon vom Eyser <simon.vom.eyser@gmail.com> (https://simonvomeyser.de)",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.1",
     "graphql-request": "^1.4.0"
   },
   "devDependencies": {
